@@ -2,7 +2,7 @@ from fabric import task
 
 
 @task
-def bootstrap_centos(context, timezone='UTC'):
+def centos(context, timezone='UTC'):
     """
     Bootstrap the CentOS machine.
 
@@ -104,7 +104,9 @@ def bootstrap_centos(context, timezone='UTC'):
 
 
 @task
-def install_docker(context):
+def docker(context):
+    """Install Docker and Docker Compose
+    """
     # ------------
     # Docker setup
     # ------------

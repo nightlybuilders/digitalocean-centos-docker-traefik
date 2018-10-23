@@ -4,7 +4,7 @@ This projects helps manage a CentOS instance on [DigitalOcean](https://www.digit
 After the setup, the CentOS will have:
 
 - Installed and running [Docker](https://www.docker.com/) including ``docker-compose``
-- [TODO] Installed and running Traefik
+- Installed and running Traefik
 
 ## Requirements
 
@@ -38,14 +38,36 @@ before actually executing it. This is a one time command and running it
 multiple times may produce unexpected results!
 
 ```
-pipenv run fab -H root@<ip> bootstrap-centos --help
+pipenv run fab -H root@<ip> bootstrap.centos --help
 ```
 
 ### Install Docker & Docker Compose
 
 ```
-pipenv run fab -H <ip> install-docker --help
+pipenv run fab -H <ip> bootstrap.docker --help
 ```
+
+
+## Traefik
+
+### Setup
+
+Upload the ``docker-compose.yml`` with the basic setup of Traefik
+
+```
+pipenv run fab -H <ip> infra.setup --help
+```
+
+### Manage
+
+Use one of the following commands to manage the docker compose stack
+
+```
+pipenv run fab -H <ip> infra.up --help
+pipenv run fab -H <ip> infra.down --help
+pipenv run fab -H <ip> infra.ps --help
+```
+
 
 ## Not yet on Digital Ocean?
 
