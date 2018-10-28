@@ -1,0 +1,34 @@
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+      entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+  [entryPoints.admin]
+   address=":8080"
+   [entryPoints.admin.auth]
+     [entryPoints.admin.auth.basic]
+       # Default credentials are "admin:admin".
+       # It is highly recommended a more secure combination is chosen for
+       # production! Generate new credentials with:
+       #    htpasswd -nb <username> <password>
+       users = ["admin:$apr1$UgwOlw2h$m9cTyXTMRxmdIsoIiKP/p1"]
+
+[api]
+entrypoint="admin"
+
+[acme]
+storage = "acme.json"
+entryPoint = "https"
+onHostRule = true
+onDemand = false
+  [acme.httpChallenge]
+  entryPoint = "http"
+
+[docker]
+watch = true
+exposedByDefault = false

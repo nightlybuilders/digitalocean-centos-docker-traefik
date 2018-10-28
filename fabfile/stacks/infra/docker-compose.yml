@@ -2,10 +2,25 @@ version: '3'
 
 services:
   reverse-proxy:
-    image: traefik  # The official Traefik docker image
-    command: --api --docker  # Enables the web UI and tells Traefik to listen to docker
+    image: traefik:1.7.3-alpine
+    command: --docker \
+             --acme.email=${TRAEFIK_ACME_EMAIL}
     ports:
-      - "80:80"      # The HTTP port
+      - "80:80"
+      - "443:443"
       - "8080:8080"  # The Web UI (enabled by --api)
+    labels:
+      - "traefik.frontend.rule=${TRAEFIK_MONITOR}"
+      - "traefik.port=8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
+      - /home/admin/docker/infra/traefik.toml:/traefik.toml
+      - /home/admin/docker/infra/acme.json:/acme.json
+    networks:
+      - proxy
+      - default
+
+networks:
+  proxy:
+    external:
+      name: proxy
