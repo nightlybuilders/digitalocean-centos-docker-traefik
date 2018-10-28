@@ -8,7 +8,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"  # The Web UI (enabled by --api)
     labels:
       - "traefik.frontend.rule=${TRAEFIK_MONITOR}"
       - "traefik.port=8080"
@@ -20,7 +19,21 @@ services:
       - proxy
       - default
 
+  portainer:
+    image: portainer/portainer:1.19.2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    labels:
+      - "traefik.frontend.rule=${TRAEFIK_PORTAINER}"
+      - "traefik.port=9000"
+    networks:
+      - default
+
 networks:
   proxy:
     external:
       name: proxy
+
+volumes:
+  portainer_data:  # use defaults
