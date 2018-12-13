@@ -17,12 +17,11 @@ def setup(c):
     c.put(f'{HERE}/dot.env',
           remote='docker/infra/.env')
     
-    output = c.run('docker network ls | grep proxy')
-    if not 'proxy' in output.stdout:
+    result = c.run('docker network ls | grep proxy', warn=True)
+    if result.failed:
         c.run('docker network create proxy')
 
-    c.run('test -f docker/infra/acme.json || touch docker/infra/acme.json')
-    c.run('test -f docker/infra/acme.json || chmod 600 docker/infra/acme.json')
+    c.run('test -f docker/infra/acme.json || touch docker/infra/acme.json && chmod 600 docker/infra/acme.json')
 
 
 @task
