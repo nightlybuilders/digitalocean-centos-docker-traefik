@@ -75,7 +75,7 @@ def centos(context, timezone='UTC'):
     # time & timezone settings
     # ------------------------
     # Set timezone
-    context.run('timedatectl set-timezone '.format(timezone))
+    context.run('timedatectl set-timezone {0}'.format(timezone))
     # NTP Synchronization
     context.run('yum -y install ntp')  # keep time up2date
     context.run('systemctl start ntpd')
